@@ -1,25 +1,25 @@
 pipeline {
     agent any
 
-    environment {
-        APP_NAME = "qa-devops-example"
-        DOCKER_COMPOSE_FILE = "docker-compose.yml"
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Install Dependencies') {
+            agent {
+                docker {
+                    image 'node:16'   // usa Node 16 dentro de Docker
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 sh 'npm install'
             }
         }
 
         stage('Run Tests') {
+            agent {
+                docker {
+                    image 'node:16'
+                }
+            }
             steps {
                 sh 'npm test'
             }
@@ -27,24 +27,23 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker-compose build'
+                sh 'docker-compose build api'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d api'
             }
         }
     }
 
     post {
         success {
-            echo '✅ Pipeline completado, y test pasados con éxito. API desplegada.'
+            echo '✅ Pipeline completado con éxito. Nueva versión desplegada.'
         }
         failure {
-            echo '❌ Pipeline completado y test no pasados. Se mantiene la versión anterior en ejecución.'
+            echo '❌ Pipeline fallido. Se mantiene la versión anterior en ejecución.'
         }
     }
 }
