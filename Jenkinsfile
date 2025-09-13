@@ -1,39 +1,32 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "Node16"
+    }
+
     stages {
         stage('Install Dependencies') {
-            agent {
-                docker {
-                    image 'node:16'   // usa Node 16 dentro de Docker
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Run Tests') {
-            agent {
-                docker {
-                    image 'node:16'
-                }
-            }
             steps {
-                sh 'npm test'
+                bat 'npm test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker-compose build api'
+                bat 'docker-compose build app'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose up -d api'
+                bat 'docker-compose up -d app'
             }
         }
     }
