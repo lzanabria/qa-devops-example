@@ -5,6 +5,11 @@ pipeline {
         nodejs "Node16"
     }
 
+    environment {
+        // Apunta al Docker expuesto por TCP desde Windows
+        DOCKER_HOST = 'tcp://host.docker.internal:2375'
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
@@ -14,7 +19,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                sh 'npm test -- --forceExit' // fuerza cerrar Jest para evitar open handles
             }
         }
 
