@@ -6,7 +6,6 @@ pipeline {
     }
 
     environment {
-        // Apunta al Docker expuesto por TCP desde Windows
         DOCKER_HOST = 'tcp://host.docker.internal:2375'
     }
 
@@ -19,7 +18,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm test -- --forceExit' // fuerza cerrar Jest para evitar open handles
+                sh 'npm test'
             }
         }
 
