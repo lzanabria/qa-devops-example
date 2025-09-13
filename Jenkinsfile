@@ -8,25 +8,25 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'npm test'
+                sh 'npm test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker-compose build app'
+                sh 'docker-compose build app'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'docker-compose up -d app'
+                sh 'docker-compose up -d app'
             }
         }
     }
