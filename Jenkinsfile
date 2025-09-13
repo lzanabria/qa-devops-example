@@ -5,10 +5,6 @@ pipeline {
         nodejs "Node16"
     }
 
-    environment {
-        DOCKER_HOST = 'tcp://host.docker.internal:2375'
-    }
-
     stages {
         stage('Install Dependencies') {
             steps {
@@ -19,18 +15,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh 'npm test'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker-compose build app'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh 'docker-compose up -d app'
             }
         }
     }
