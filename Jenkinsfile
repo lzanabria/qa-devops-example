@@ -41,10 +41,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Pipeline completado con éxito. API desplegada.'
+            echo '✅ Pipeline completado, y test pasados con éxito. API desplegada.'
         }
         failure {
-            echo '❌ Pipeline falló. Se mantiene la versión anterior en ejecución.'
+            echo '❌ Pipeline completado y test no pasados. Se mantiene la versión anterior en ejecución.'
         }
     }
 }
