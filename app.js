@@ -13,7 +13,7 @@ app.post("/sumar", (req, res) => {
 
     res.json({
         version: VERSION,
-        resultado: a - b
+        resultado: a + b
     });
 });
 
