@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-const VERSION = "2.0.0";
+const VERSION = "3.0.0";
 
 app.post("/sumar", (req, res) => {
     const { a, b } = req.body;
